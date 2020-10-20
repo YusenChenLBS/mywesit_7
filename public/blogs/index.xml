@@ -23,7 +23,7 @@ In this analysis, we will download bike sharing data from UK gov, and observe th
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/climate/</guid>
-      <description>Global warming has become the most important social, environment and political topic in the last decades of years.
+      <description>IntroductionGlobal warming has become the most important social, environment and political topic in the last decades of years.
 Considering the massive controversy surrounding global warming, we want to answer the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly temperature since 1880s. We will use ggplot to visually show the facts of global warming.</description>
     </item>
     
@@ -43,9 +43,9 @@ Considering the massive controversy surrounding global warming, we want to answe
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/usyield/</guid>
-      <description>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years.
+      <description>IntroductionThe reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years.
 In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this indicator appear before the recession.
-First, we will use the tidyquant package to download monthly rates for different durations.</description>
+Download and process dataFirst, we will use the tidyquant package to download monthly rates for different durations.</description>
     </item>
     
     <item>

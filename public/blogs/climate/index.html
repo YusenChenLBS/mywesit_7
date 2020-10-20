@@ -86,8 +86,12 @@
 
 
 <p><img src="/img/climate.jpg" width="90%" /></p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>Global warming has become the most important social, environment and political topic in the last decades of years.</p>
 <p>Considering the massive controversy surrounding global warming, we want to answer the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly temperature since 1880s. We will use ggplot to visually show the facts of global warming.</p>
+<div id="download-data" class="section level3">
+<h3>Download data</h3>
 <pre class="r"><code>weather &lt;- 
   read_csv(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&quot;, 
            skip = 1, 
@@ -102,6 +106,8 @@
   pivot_longer(cols = 2:13, #columns 2 to 13
                names_to = &quot;month&quot;,
                values_to = &quot;delta&quot;)</code></pre>
+</div>
+</div>
 <div id="plotting-information" class="section level2">
 <h2>Plotting Information</h2>
 <p>Let us plot the data using a time-series scatter plot, and add a trendline. To do that, we first need to create a new variable called <code>date</code> in order to ensure that the <code>delta</code> values are plot chronologically.</p>

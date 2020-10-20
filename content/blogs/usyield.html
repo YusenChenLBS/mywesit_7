@@ -13,8 +13,13 @@ title: Us Yield Curve Reversion
 
 
 <p><img src="/img/recession.jpg" width="90%" /></p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years.</p>
 <p>In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this indicator appear before the recession.</p>
+</div>
+<div id="download-and-process-data" class="section level2">
+<h2>Download and process data</h2>
 <p>First, we will use the <code>tidyquant</code> package to download monthly rates for different durations.</p>
 <pre class="r"><code># Get a list of FRED codes for US rates and US yield curve; choose monthly frequency
 # to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MS
@@ -131,6 +136,7 @@ glimpse(df)</code></pre>
 </ul>
 <p>The first thing would be to join this dataframe <code>df</code> with the dataframe <code>mylookup</code> so we have a more readable version of maturities, durations, etc.</p>
 <pre class="r"><code>yield_curve &lt;-left_join(df,mylookup,by=&quot;symbol&quot;) </code></pre>
+</div>
 <div id="plotting-the-yield-curve" class="section level2">
 <h2>Plotting the yield curve</h2>
 <div id="yields-on-us-rates-by-duration-since-1960" class="section level3">
