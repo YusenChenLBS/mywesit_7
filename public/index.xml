@@ -13,7 +13,8 @@
       <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/bike/</guid>
-      <description>Since bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year. In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number.</description>
+      <description>Since bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year.
+In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number.</description>
     </item>
     
     <item>
@@ -22,17 +23,18 @@
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/climate/</guid>
-      <description>Global warming has become the most important social, environment and political topic in the last decades of years. Considering the massive controversy surrounding global warming, we want prove the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly tempareture since 1880s. We will use ggplot to visually show the facts of global warming。</description>
+      <description>Global warming has become the most important social, environment and political topic in the last decades of years.
+Considering the massive controversy surrounding global warming, we want to answer the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly temperature since 1880s. We will use ggplot to visually show the facts of global warming.</description>
     </item>
     
     <item>
-      <title>My Story continues</title>
+      <title>Life of Yusen Chen</title>
       <link>/blogs/me/</link>
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/me/</guid>
-      <description>Hi, my name is Yusen Chen, a Masters in Financial Analysis student in LBS. I graduated from Fudan University, China, where i majored in Economics during undergraduate.
-My passionI always have great passion for the world, especially for those issues that will have great impacts on our times, which is the inner motivation of my life and career.Driven by such passion, I read quite extensively during undergraduate, covering many subjects, and gained a more comprehensive way of things.</description>
+      <description>My Story continues…Hi, my name is Yusen Chen, a Masters in Financial Analysis student in LBS. I graduated from Fudan University, China, where I majored in Economics during undergraduate.
+My passionI always have great passion for the world, especially for those issues that will have great impacts on our times, which is the inner motivation of my life and career.Driven by such passion, I read quite extensively during undergraduate, covering many subjects, and gained a more comprehensive way of things.</description>
     </item>
     
     <item>
@@ -41,7 +43,8 @@ My passionI always have great passion for the world, especially for those issue
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/usyield/</guid>
-      <description>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this reversion appear.
+      <description>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years.
+In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this indicator appear before the recession.
 First, we will use the tidyquant package to download monthly rates for different durations.</description>
     </item>
     

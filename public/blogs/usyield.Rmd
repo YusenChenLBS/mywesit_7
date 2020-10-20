@@ -10,6 +10,10 @@ slug: usyield
 title: Us Yield Curve Reversion
 ---
 
+```{r add_my_new_picture, echo=FALSE, out.width="90%"}
+knitr::include_graphics("/img/recession.jpg",error = FALSE)
+```
+
 
 ```{r, setup, echo=FALSE}
 knitr::opts_chunk$set(
@@ -44,7 +48,9 @@ library(openintro)
 library(tidyquant)
 ```
 
-The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this reversion appear.
+The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. 
+
+In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this indicator appear before the recession.
 
 
 

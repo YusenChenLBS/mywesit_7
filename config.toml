@@ -114,7 +114,7 @@ disqusShortname = ""
       url = "blogs/bike"
 
     [[params.tiles.showcase]]
-      title = "Climate change and temperature anomalies"
+      title = "Climate Change and Temperature Anomalies"
       subtitle = "Things you should know of our planet"
       image = "climate.jpg"
       url = "blogs/climate"

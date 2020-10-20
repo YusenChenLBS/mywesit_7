@@ -10,6 +10,10 @@ slug: bike
 title: Excess Rentals in London Bike Sharing
 ---
 
+```{r add_my_new_picture, echo=FALSE, out.width="90%"}
+knitr::include_graphics("/img/bike.jpg",error = FALSE)
+```
+
 ```{r, setup, include=FALSE}
 knitr::opts_chunk$set(
   message = FALSE, 
@@ -42,7 +46,9 @@ library(scales)
 ```
 
 
-Since bike sharing comes to popular, it has become a  reflection of people's activities and can show the impact of those great event like covid-19 this year. In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number. And then we will conduct the same method to analyze weekly data.
+Since bike sharing comes to popular, it has become a  reflection of people's activities and can show the impact of those great event like covid-19 this year. 
+
+In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number. And then we will conduct the same method to analyze weekly data.
 
 
 ```{r, get_tfl_data, cache=TRUE}
