@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Yusen&#39;s Portfolio</title>
-    <link>/</link>
-    <description>Recent content on Yusen&#39;s Portfolio</description>
+    <title>Projects on Yusen&#39;s Portfolio</title>
+    <link>/projects/</link>
+    <description>Recent content in Projects on Yusen&#39;s Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Session 6: Homework 3</title>
       <link>/projects/usyield/usyield/</link>
@@ -15,53 +15,6 @@
       <guid>/projects/usyield/usyield/</guid>
       <description>First, we will use the tidyquant package to download monthly rates for different durations.
 # Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc....&amp;#39;GS3&amp;#39;,&amp;#39;GS5&amp;#39;,&amp;#39;GS7&amp;#39;,&amp;#39;GS10&amp;#39;,&amp;#39;GS20&amp;#39;,&amp;#39;GS30&amp;#39;) #.... all the way to the 30-year rate# Turn FRED codes to human readable variablesmyvars &amp;lt;- c(&amp;#39;3-Month Treasury Bill&amp;#39;,&amp;#39;6-Month Treasury Bill&amp;#39;,&amp;#39;1-Year Treasury Rate&amp;#39;,&amp;#39;2-Year Treasury Rate&amp;#39;,&amp;#39;3-Year Treasury Rate&amp;#39;,&amp;#39;5-Year Treasury Rate&amp;#39;,&amp;#39;7-Year Treasury Rate&amp;#39;,&amp;#39;10-Year Treasury Rate&amp;#39;,&amp;#39;20-Year Treasury Rate&amp;#39;,&amp;#39;30-Year Treasury Rate&amp;#39;)maturity &amp;lt;- c(&amp;#39;3m&amp;#39;, &amp;#39;6m&amp;#39;, &amp;#39;1y&amp;#39;, &amp;#39;2y&amp;#39;,&amp;#39;3y&amp;#39;,&amp;#39;5y&amp;#39;,&amp;#39;7y&amp;#39;,&amp;#39;10y&amp;#39;,&amp;#39;20y&amp;#39;,&amp;#39;30y&amp;#39;)# by default R will sort these maturities alphabetically; but since we want# to keep them in that exact order, we recast maturity as a factor # or categorical variable, with the levels defined as we wantmaturity &amp;lt;- factor(maturity, levels = maturity)# Create a lookup datasetmylookup&amp;lt;-data.</description>
-    </item>
-    
-    <item>
-      <title>Aliquam</title>
-      <link>/blogs/aliquam/</link>
-      <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
-      
-      <guid>/blogs/aliquam/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tempus</title>
-      <link>/blogs/tempus/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
-      
-      <guid>/blogs/tempus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Magna</title>
-      <link>/blogs/magna/</link>
-      <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
-      
-      <guid>/blogs/magna/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ipsum</title>
-      <link>/blogs/ipsum/</link>
-      <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
-      
-      <guid>/blogs/ipsum/</guid>
-      <description>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
-      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
     </item>
     
   </channel>

@@ -53,7 +53,7 @@ disqusShortname = ""
 
     [[params.navigation.links]]
       name = "US Yield Curve Inversion"
-      url = "contents/projects/usyield/usyield.rmd"
+      url = "blogs"
 
     [[params.navigation.links]]
       name = "Elements"
@@ -101,7 +101,7 @@ disqusShortname = ""
       title = "US Yield Curve Inversion"
       subtitle = "A Good Indicator for Recession"
       image = "yield.png"
-      url = "content/projects/usyield"
+      url = "blogs"
 
     [[params.tiles.showcase]]
       title = "Magna"
@@ -192,30 +192,24 @@ disqusShortname = ""
     # Uses font awesome icons
     [[params.footer.social]]
       icon = "fa-twitter"
-      url= "https://www.twitter.com"
+      url= "https://twitter.com/cyrilchen18"
       label = "Twitter"
 
     [[params.footer.social]]
       icon = "fa-facebook"
-      url= "https://www.facebook.com"
+      url= "https://www.facebook.com/cyril.chen.1213/"
       label = "Facebook"
 
     [[params.footer.social]]
-      icon = "fa-instagram"
-      url= "https://www.instagram.com"
-      label = "Instagram"
-    
-    [[params.footer.social]]
       icon = "fa-github"
-      url= "https://www.github.com"
+      url= "https://github.com/YusenChenLBS"
       label = "GitHub"
 
     [[params.footer.social]]
       icon = "fa-linkedin"
-      url= "https://www.linkedin.com"
+      url= "www.linkedin.com/in/cyrilyusenchen"
       label = "LinkedIn"
 
     [[params.footer.quicklinks]]
-      text = "Design: "
-      url= "https://www.html5up.net"
+      text = "Yusen Chen "
       alt = "HTML5 UP"
