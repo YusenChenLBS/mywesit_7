@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Your description">
+	<meta name="author" content="Yusen Chen">
+	<meta name="generator" content="Hugo 0.75.1" />
+	<title>Excess Rentals in London Bike Sharing &middot; Yusen&#39;s Portfolio</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong>Yusen Chen</strong> <span>Personal Website</span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Home</a></li>
+            
+                <li><a href="/blogs">About Me</a></li>
+            
+                <li><a href="/blogs/usyield">US Yield Curve Inversion</a></li>
+            
+                <li><a href="/blogs/bike">Bike Sharing</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+                <li><a href="/blogs" class="button special fit">Get Started</a></li>
+            
+            
+                <li><a href="/" class="button fit">Log In</a></li>
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>Excess Rentals in London Bike Sharing</h1>
+                            </header>
+                            
+                            
+
+
+<pre class="r"><code>url &lt;- &quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&quot;
+
+# Download TFL data to temporary file
+httr::GET(url, write_disk(bike.temp &lt;- tempfile(fileext = &quot;.xlsx&quot;)))</code></pre>
+<pre><code>## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20201020%2Feu-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20201020T165309Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=3877d406a54672ba2787ccee5874c5ec52ea74bf456fe180ce3d4116c81f555a&amp;X-Amz-SignedHeaders=host]
+##   Date: 2020-10-20 16:53
+##   Status: 200
+##   Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+##   Size: 165 kB
+## &lt;ON DISK&gt;  C:\Users\admin\AppData\Local\Temp\RtmpQ7Dviq\file334020b47b7c.xlsx</code></pre>
+<pre class="r"><code># Use read_excel to read it as dataframe
+bike0 &lt;- read_excel(bike.temp,
+                   sheet = &quot;Data&quot;,
+                   range = cell_cols(&quot;A:B&quot;))
+Sys.setlocale(&quot;LC_TIME&quot;, &quot;English&quot;)</code></pre>
+<pre><code>## [1] &quot;English_United States.1252&quot;</code></pre>
+<pre class="r"><code># change dates to get year, month, and week
+bike &lt;- bike0 %&gt;% 
+  clean_names() %&gt;% 
+  rename (bikes_hired = number_of_bicycle_hires) %&gt;% 
+  mutate (year = year(day),
+          month = lubridate::month(day,label=TRUE),
+          week = isoweek(day))</code></pre>
+<pre class="r"><code>Sys.setlocale(&quot;LC_TIME&quot;, &quot;English&quot;)</code></pre>
+<pre><code>## [1] &quot;English_United States.1252&quot;</code></pre>
+<pre class="r"><code>bike2&lt;-bike %&gt;% 
+  group_by(year,month) %&gt;% 
+  summarise(monthly_num=mean(bikes_hired)) %&gt;% 
+  ungroup()
+
+bike3&lt;-bike2%&gt;% 
+  filter(year&gt;2014&amp;year&lt;2020) %&gt;% 
+  group_by(month) %&gt;% 
+  summarise(monthly_mean=mean(monthly_num)) %&gt;% 
+  ungroup()
+
+bike4&lt;-left_join(bike2,bike3,&quot;month&quot;)%&gt;% 
+  mutate(posi=ifelse(monthly_num&gt;monthly_mean,monthly_num,monthly_mean),
+         nega=ifelse(monthly_num&gt;monthly_mean,monthly_mean,monthly_num))%&gt;% 
+  filter(year&gt;2014) </code></pre>
+<pre class="r"><code>bike_w&lt;-bike %&gt;% 
+  group_by(year,week) %&gt;% 
+  summarise(weekly_num=mean(bikes_hired))%&gt;% 
+  ungroup()
+
+bike_w2&lt;-bike_w%&gt;% 
+  filter(year&gt;2014&amp;year&lt;2020) %&gt;% 
+  group_by(week) %&gt;% 
+  summarise(weekly_mean=mean(weekly_num)) %&gt;% 
+  ungroup()
+
+bike_w3&lt;-left_join(bike_w,bike_w2,&quot;week&quot;)%&gt;% 
+  mutate(diff=(weekly_num-weekly_mean)/weekly_mean,
+        judge=weekly_num&gt;weekly_mean,
+        posi=ifelse(judge,diff,0),
+         nega=ifelse(judge,0,diff))%&gt;% 
+  filter(year&gt;2014) </code></pre>
+<pre class="r"><code>bike4 %&gt;% 
+  ggplot(aes(x=month))+
+  geom_ribbon(aes(ymin=nega, ymax=monthly_num,fill=&#39;red&#39;,group=0))+
+  geom_ribbon(aes(ymin=monthly_mean, ymax=nega,fill=&#39;bluw&#39;,group=0))+
+  geom_line(aes(y=monthly_num),group=1)+
+  geom_line(aes(y=monthly_mean),colour=&#39;#0101DF&#39;,size=1,group=1)+
+  facet_wrap(~year)+
+  theme_minimal()+
+  labs(title=&#39;Monthly changes in TfL bike rentals&#39;,
+       subtitle=&#39;Change from monthly average shown in blue and calculated between 2015-2019&#39; ,
+       y = &quot;Bike Rentals&quot;,
+       x=element_blank(),
+       caption=&#39;Soource: TfL, London Data Store&#39;)+
+  theme(legend.position =&#39;none&#39;)</code></pre>
+<p><img src="/blogs/bike_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(bike_w3,aes(x=week))+
+  geom_area(aes(y=posi,fill=&#39;green&#39;),outline.type=&#39;lower&#39;)+
+  geom_area(aes(y=nega,fill=&#39;blue&#39;),outline.type=&#39;lower&#39;)+
+  geom_rect(aes(xmin=13, xmax=26, ymin=-Inf, ymax=Inf),fill=&#39;#545454&#39;,alpha = .005)+
+  geom_rect(aes(xmin=39, xmax=52, ymin=-Inf, ymax=Inf),fill=&#39;#545454&#39;,alpha = .005)+
+  geom_line(aes(y=diff))+
+  facet_wrap(~year)+
+  theme_minimal()+
+  geom_rug(sides=&quot;b&quot;,aes(colour=judge)) +
+  scale_y_continuous(labels = scales :: percent)+
+  labs(title=&#39;Weekly changes in TfL bike rentals&#39;,
+       subtitle=&#39;%changes from weekly averages calculated between 2015-2019&#39;,
+       y=element_blank(),
+       caption=&#39;Source: TfL, London Data Store&#39;)+
+  scale_y_continuous(labels = percent,breaks=seq(-0.6,0.6,0.3))+
+  scale_x_continuous(breaks=seq(0, 52, 13))+
+  theme(legend.position=&quot;none&quot;)</code></pre>
+<p><img src="/blogs/bike_files/figure-html/unnamed-chunk-5-1.png" width="648" style="display: block; margin: auto;" /></p>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+                <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <ul class="icons">
+                
+                    <li><a href="https://twitter.com/cyrilchen18" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+                
+                    <li><a href="https://www.facebook.com/cyril.chen.1213/" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
+                
+                    <li><a href="https://github.com/YusenChenLBS" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                    <li><a href="www.linkedin.com/in/cyrilyusenchen" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+                
+            </ul>
+            <ul class="copyright">
+                <li>&copy; London Business School</li>
+                
+                <li>Yusen Chen  <a href=""></a></li>
+                
+            </ul>
+        </div>
+    </footer>
+
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

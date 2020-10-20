@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Excess Rentals in London Bike Sharing</title>
+      <link>/blogs/bike/</link>
+      <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/bike/</guid>
+      <description>url &amp;lt;- &amp;quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&amp;quot;# Download TFL data to temporary filehttr::GET(url, write_disk(bike.temp &amp;lt;- tempfile(fileext = &amp;quot;.xlsx&amp;quot;)))## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20201020%2Feu-west-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Date=20201020T165309Z&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Signature=3877d406a54672ba2787ccee5874c5ec52ea74bf456fe180ce3d4116c81f555a&amp;amp;X-Amz-SignedHeaders=host]## Date: 2020-10-20 16:53## Status: 200## Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet## Size: 165 kB## &amp;lt;ON DISK&amp;gt; C:\Users\admin\AppData\Local\Temp\RtmpQ7Dviq\file334020b47b7c.xlsx# Use read_excel to read it as dataframebike0 &amp;lt;- read_excel(bike.temp,sheet = &amp;quot;Data&amp;quot;,range = cell_cols(&amp;quot;A:B&amp;quot;))Sys.setlocale(&amp;quot;LC_TIME&amp;quot;, &amp;quot;English&amp;quot;)## [1] &amp;quot;English_United States.1252&amp;quot;# change dates to get year, month, and weekbike &amp;lt;- bike0 %&amp;gt;% clean_names() %&amp;gt;% rename (bikes_hired = number_of_bicycle_hires) %&amp;gt;% mutate (year = year(day),month = lubridate::month(day,label=TRUE),week = isoweek(day))Sys.</description>
+    </item>
+    
+    <item>
       <title>Us Yield Curve Reversion</title>
       <link>/blogs/usyield/</link>
       <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
