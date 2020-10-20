@@ -53,7 +53,7 @@ disqusShortname = ""
 
     [[params.navigation.links]]
       name = "US Yield Curve Inversion"
-      url = "contents/projects/usyield.rmd"
+      url = "contents/projects/usyield/usyield.rmd"
 
     [[params.navigation.links]]
       name = "Elements"
