@@ -6,17 +6,5 @@ slug: blogs
 title: My Story continues...
 ---
 
-# The personal biography of Tianen Yao
 
-Hi, my name is Yusen Chen, a Masters in Financial Analysis student in LBS. I graduated from Fudan University, China, where i majored in Economics during undergraduate.
-
-I always have great passion for the world, especially for those issues that will have great impacts on our times, which is the inner motivation of my life and career.Driven by such passion, I read quite extensively during undergraduate, covering many subjects, and gained a more comprehensive way of things. I also conducted trading by my own savings in several markets and really enjoyed it cause it helped people to keep up with changes around the world. Being in LBS after my 22 years in China, I got the opportunity to join a more diversified community, and I am really looking forward to making new friends and listening to voices from all over the world here.
-
->If you also are person who enjoy sharing and discussing, feel free to contact through the links below.
-
-Now I am applying for a summer analyst position, with a specific career passion for macro desks in Sales and Trading as well as multi-asset teams in asset management companies. I am convinced that my former experience in both academic learning and internships equipped me with essential skills that employers are looking for in a summer analyst.I improved myself in the following aspects particularly:
-
-1. Knowledge of markets: during my internships; I looked into several specific markets and gained an understanding of market microstructure and liquidity, and I also got the opportunity to observe how PMs evaluated risk-reward and executed trades. Outside of working hours, I have the habit of tracing price movements and writing reviews, and also conduct trading with my own savings
-2. Understanding of macroeconomics: I majored economics in Fudan University during undergraduate, where I acquired the framework of analyzing macroeconomics and gained great passion for it. Then from internships and books of those great macro traders, I have learned how to combine different information together, including economic fundamentals, central banks actions, capital flows, and prices levels of asset classes, to reach an overview of the whole economy and markets
-3. Independent thinking: extensive reading equipped me with the ability of thinking comprehensively and independently, and I am able to express myself bravely and appropriately, for example, I used to have a different view towards a stock and finally manage to persuade the portfolio manager after communication
-
+My life continues

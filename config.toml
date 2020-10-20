@@ -49,7 +49,7 @@ disqusShortname = ""
 
     [[params.navigation.links]]
       name = "About Me"
-      url = "blogs"
+      url = "blogs/me"
 
     [[params.navigation.links]]
       name = "US Yield Curve Inversion"
@@ -99,7 +99,7 @@ disqusShortname = ""
       title = "About Me"
       subtitle = "My Story"
       image = "me2.jpg"
-      url = "blogs/aliquam"
+      url = "blogs/me"
 
     [[params.tiles.showcase]]
       title = "US Yield Curve Inversion"

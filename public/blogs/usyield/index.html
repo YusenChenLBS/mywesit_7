@@ -52,7 +52,7 @@
             
                 <li><a href="/">Home</a></li>
             
-                <li><a href="/blogs">About Me</a></li>
+                <li><a href="/blogs/me">About Me</a></li>
             
                 <li><a href="/blogs/usyield">US Yield Curve Inversion</a></li>
             
@@ -85,238 +85,140 @@
                             
 
 
-<p>First, we will use the <code>tidyquant</code> package to download monthly rates for different durations.</p>
-<pre class="r"><code># Get a list of FRED codes for US rates and US yield curve; choose monthly frequency
-# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MS
-tickers &lt;- c(&#39;TB3MS&#39;, # 3-month Treasury bill (or T-bill)
-             &#39;TB6MS&#39;, # 6-month
-             &#39;GS1&#39;,   # 1-year
-             &#39;GS2&#39;,   # 2-year, etc....
-             &#39;GS3&#39;,
-             &#39;GS5&#39;,
-             &#39;GS7&#39;,
-             &#39;GS10&#39;,
-             &#39;GS20&#39;,
-             &#39;GS30&#39;)  #.... all the way to the 30-year rate
-
-# Turn  FRED codes to human readable variables
-myvars &lt;- c(&#39;3-Month Treasury Bill&#39;,
-            &#39;6-Month Treasury Bill&#39;,
-            &#39;1-Year Treasury Rate&#39;,
-            &#39;2-Year Treasury Rate&#39;,
-            &#39;3-Year Treasury Rate&#39;,
-            &#39;5-Year Treasury Rate&#39;,
-            &#39;7-Year Treasury Rate&#39;,
-            &#39;10-Year Treasury Rate&#39;,
-            &#39;20-Year Treasury Rate&#39;,
-            &#39;30-Year Treasury Rate&#39;)
-
-maturity &lt;- c(&#39;3m&#39;, &#39;6m&#39;, &#39;1y&#39;, &#39;2y&#39;,&#39;3y&#39;,&#39;5y&#39;,&#39;7y&#39;,&#39;10y&#39;,&#39;20y&#39;,&#39;30y&#39;)
-
-# by default R will sort these maturities alphabetically; but since we want
-# to keep them in that exact order, we recast maturity as a factor 
-# or categorical variable, with the levels defined as we want
-maturity &lt;- factor(maturity, levels = maturity)
-
-# Create a lookup dataset
-mylookup&lt;-data.frame(symbol=tickers,var=myvars, maturity=maturity)
-# Take a look:
-mylookup %&gt;% 
-  knitr::kable()</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">symbol</th>
-<th align="left">var</th>
-<th align="left">maturity</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">TB3MS</td>
-<td align="left">3-Month Treasury Bill</td>
-<td align="left">3m</td>
-</tr>
-<tr class="even">
-<td align="left">TB6MS</td>
-<td align="left">6-Month Treasury Bill</td>
-<td align="left">6m</td>
-</tr>
-<tr class="odd">
-<td align="left">GS1</td>
-<td align="left">1-Year Treasury Rate</td>
-<td align="left">1y</td>
-</tr>
-<tr class="even">
-<td align="left">GS2</td>
-<td align="left">2-Year Treasury Rate</td>
-<td align="left">2y</td>
-</tr>
-<tr class="odd">
-<td align="left">GS3</td>
-<td align="left">3-Year Treasury Rate</td>
-<td align="left">3y</td>
-</tr>
-<tr class="even">
-<td align="left">GS5</td>
-<td align="left">5-Year Treasury Rate</td>
-<td align="left">5y</td>
-</tr>
-<tr class="odd">
-<td align="left">GS7</td>
-<td align="left">7-Year Treasury Rate</td>
-<td align="left">7y</td>
-</tr>
-<tr class="even">
-<td align="left">GS10</td>
-<td align="left">10-Year Treasury Rate</td>
-<td align="left">10y</td>
-</tr>
-<tr class="odd">
-<td align="left">GS20</td>
-<td align="left">20-Year Treasury Rate</td>
-<td align="left">20y</td>
-</tr>
-<tr class="even">
-<td align="left">GS30</td>
-<td align="left">30-Year Treasury Rate</td>
-<td align="left">30y</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>df &lt;- tickers %&gt;% tidyquant::tq_get(get=&quot;economic.data&quot;, 
-                   from=&quot;1960-01-01&quot;)   # start from January 1960
-
-glimpse(df)</code></pre>
-<pre><code>## Rows: 6,774
-## Columns: 3
-## $ symbol &lt;chr&gt; &quot;TB3MS&quot;, &quot;TB3MS&quot;, &quot;TB3MS&quot;, &quot;TB3MS&quot;, &quot;TB3MS&quot;, &quot;TB3MS&quot;, &quot;TB3MS...
-## $ date   &lt;date&gt; 1960-01-01, 1960-02-01, 1960-03-01, 1960-04-01, 1960-05-01,...
-## $ price  &lt;dbl&gt; 4.35, 3.96, 3.31, 3.23, 3.29, 2.46, 2.30, 2.30, 2.48, 2.30, ...</code></pre>
-<p>Our dataframe <code>df</code> has three columns (variables):</p>
-<ul>
-<li><code>symbol</code>: the FRED database ticker symbol</li>
-<li><code>date</code>: already a date object</li>
-<li><code>price</code>: the actual yield on that date</li>
-</ul>
-<p>The first thing would be to join this dataframe <code>df</code> with the dataframe <code>mylookup</code> so we have a more readable version of maturities, durations, etc.</p>
-<pre class="r"><code>yield_curve &lt;-left_join(df,mylookup,by=&quot;symbol&quot;) </code></pre>
-<div id="plotting-the-yield-curve" class="section level2">
-<h2>Plotting the yield curve</h2>
-<p>This may seem long but it should be easy to produce the following three plots</p>
-<div id="yields-on-us-rates-by-duration-since-1960" class="section level3">
-<h3>Yields on US rates by duration since 1960</h3>
-<pre class="r"><code>yield_curve$var&lt;-factor(yield_curve$var, levels = myvars)</code></pre>
-<pre class="r"><code>yield_curve %&gt;% 
-  ggplot(aes(x=date, y=price,colour=maturity))+
-  geom_line()+
-  facet_wrap(~var,nrow=5)+
-  theme_bw()+
-  theme(legend.position = &#39;none&#39;)+
-  labs(title=&#39;Yields on U.S. Treasury rates since 1960&#39;,
-       x=element_blank(),
-       y=&#39;%&#39;,
-       caption=&#39;Source: St Louis Federal Reserve Economic Database(FRED)&#39;)</code></pre>
-<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" /></p>
-</div>
-<div id="monthly-yields-on-us-rates-by-duration-since-1999-on-a-year-by-year-basis" class="section level3">
-<h3>Monthly yields on US rates by duration since 1999 on a year-by-year basis</h3>
-<pre class="r"><code>yield_curve %&gt;% 
-  mutate(year=year(date),month=month(date)) %&gt;% 
-  filter(year%in%c(1999:2020)) %&gt;% 
-  ggplot(aes(x=maturity, y=price,group=month, colour=year))+
-  geom_line()+
-  facet_wrap(~year,nrow=5)+
-  theme_bw()+
-  theme(legend.position = &#39;none&#39;)+
-  labs(title=&#39;US Yield Curve&#39;,
-       x=&#39;Maturity&#39;,
-       y=&#39;Yield(%)&#39;,
-       caption=&#39;Source: St Louis Federal Reserve Economic Database(FRED)&#39;)</code></pre>
-<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" /></p>
-</div>
-<div id="month-and-10-year-yields-since-1999" class="section level3">
-<h3>3-month and 10-year yields since 1999</h3>
-<pre class="r"><code>yield_curve %&gt;% 
-  mutate(year=year(date)) %&gt;% 
-  filter(year%in% c(1999:2020)&amp; maturity%in% c(&#39;3m&#39;,&#39;10y&#39;)) %&gt;% 
-  ggplot(aes(x=date, y=price, colour=var))+
-  geom_line()+
-  theme_bw()+
-  labs(title=&#39;US Yield Curve&#39;,
-       x=&#39;Maturity&#39;,
-       y=&#39;Yield(%)&#39;,
-       caption=&#39;Source: St Louis Federal Reserve Economic Database(FRED)&#39;)</code></pre>
-<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>According to <a href="https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States">Wikipedia’s list of recession in the United States</a>, since 1999 there have been two recession in the US: between Mar 2001–Nov 2001 and between Dec 2007–June 2009. Does the yield curve seem to flatten before these recessions? Can a yield curve flattening really mean a recession is coming in the US? Since 1999, when did short-term (3 months) yield more than longer term (10 years) debt?</p>
-<pre class="r"><code>#Yes, the yield curve flatten several months earlier than rec，ssions, which is a very useful indicator for recession.
-#from Aug 2000 to Dec 2000 and from Aug 2006 to Apr 2007.</code></pre>
-<p>Besides calculating the spread (10year - 3months), there are a few things we need to do to produce our final plot</p>
+<p>If we wanted to study climate change, we can find data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at <a href="https://data.giss.nasa.gov/gistemp">NASA’s Goddard Institute for Space Studies</a>. The <a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt">tabular data of temperature anomalies can be found here</a></p>
+<p>To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.</p>
+<p>Run the code below to load the file:</p>
+<pre class="r"><code>weather &lt;- 
+  read_csv(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&quot;, 
+           skip = 1, 
+           na = &quot;***&quot;)</code></pre>
+<p>Notice that, when using this function, we added two options: <code>skip</code> and <code>na</code>.</p>
 <ol style="list-style-type: decimal">
-<li>Setup data for US recessions</li>
-<li>Superimpose recessions as the grey areas in our plot</li>
-<li>Plot the spread between 30 years and 3 months as a blue/red ribbon, based on whether the spread is positive (blue) or negative(red)</li>
+<li>The <code>skip=1</code> option is there as the real data table only starts in Row 2, so we need to skip one row.</li>
+<li><code>na = "***"</code> option informs R how missing observations in the spreadsheet are coded. When looking at the spreadsheet, you can see that missing data is coded as "***". It is best to specify this here, as otherwise some of the data is not recognized as numeric data.</li>
 </ol>
-<ul>
-<li>For the first, the code below creates a dataframe with all US recessions since 1946</li>
-</ul>
-<pre class="r"><code># get US recession dates after 1946 from Wikipedia 
-# https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States
+<p>Once the data is loaded, notice that there is a object titled <code>weather</code> in the <code>Environment</code> panel. If you cannot see the panel (usually on the top-right), go to <code>Tools</code> &gt; <code>Global Options</code> &gt; <code>Pane Layout</code> and tick the checkbox next to <code>Environment</code>. Click on the <code>weather</code> object, and the dataframe will pop up on a seperate tab. Inspect the dataframe.</p>
+<p>For each month and year, the dataframe shows the deviation of temperature from the normal (expected). Further the dataframe is in wide format.</p>
+<p>You have two objectives in this section:</p>
+<ol style="list-style-type: decimal">
+<li><p>Select the year and the twelve month variables from the <code>weather</code> dataset. We do not need the others (J-D, D-N, DJF, etc.) for this assignment. Hint: use <code>select()</code> function.</p></li>
+<li><p>Convert the dataframe from wide to ‘long’ format. Hint: use <code>gather()</code> or <code>pivot_longer()</code> function. Name the new dataframe as <code>tidyweather</code>, name the variable containing the name of the month as <code>month</code>, and the temperature deviation values as <code>delta</code>.</p></li>
+</ol>
+<pre class="r"><code>tidyweather &lt;- weather %&gt;% 
+  select(-c(14,15,16,17,18,19)) %&gt;% 
+  pivot_longer(cols = 2:13, #columns 2 to 13
+               names_to = &quot;month&quot;,
+               values_to = &quot;delta&quot;)</code></pre>
+<div id="plotting-information" class="section level2">
+<h2>Plotting Information</h2>
+<p>Let us plot the data using a time-series scatter plot, and add a trendline. To do that, we first need to create a new variable called <code>date</code> in order to ensure that the <code>delta</code> values are plot chronologically.</p>
+<pre class="r"><code>tidyweather &lt;- tidyweather %&gt;%
+  mutate(date = ymd(paste(as.character(Year), month, &quot;1&quot;)),
+         month = month(date, label=TRUE),
+         year = year(date))
 
-recessions &lt;- tibble(
-  from = c(&quot;1948-11-01&quot;, &quot;1953-07-01&quot;, &quot;1957-08-01&quot;, &quot;1960-04-01&quot;, &quot;1969-12-01&quot;, &quot;1973-11-01&quot;, &quot;1980-01-01&quot;,&quot;1981-07-01&quot;, &quot;1990-07-01&quot;, &quot;2001-03-01&quot;, &quot;2007-12-01&quot;),  
-  to = c(&quot;1949-10-01&quot;, &quot;1954-05-01&quot;, &quot;1958-04-01&quot;, &quot;1961-02-01&quot;, &quot;1970-11-01&quot;, &quot;1975-03-01&quot;, &quot;1980-07-01&quot;, &quot;1982-11-01&quot;, &quot;1991-03-01&quot;, &quot;2001-11-01&quot;, &quot;2009-06-01&quot;) 
-  )  %&gt;% 
-  mutate(From = ymd(from), 
-         To=ymd(to),
-         duration_days = To-From)
+ggplot(tidyweather, aes(x=Year, y = delta))+
+  geom_point()+
+  geom_smooth(color=&quot;red&quot;) +
+  theme_bw() +
+  labs (
+    title = &quot;Weather Anomalies&quot;,
+    y = &quot;Temperature deviation&quot;,
+    subtitle = &quot;Global warming has been taking place over the past 50 years&quot;
+  )</code></pre>
+<p><img src="/blogs/climate_files/figure-html/scatter_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>Is the effect of increasing temperature more pronounced in some months? Use <code>facet_wrap()</code> to produce a seperate scatter plot for each month, again with a smoothing line.</p>
+<p><img src="/blogs/climate_files/figure-html/facet_wrap-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>It is sometimes useful to group data into different time periods to study historical data. For example, we often refer to decades such as 1970s, 1980s, 1990s etc. to refer to a period of time. NASA calculates a temperature anomaly, as difference form the base period of of 1951-1980. The code below creates a new data frame called <code>comparison</code> that groups data in five time periods: 1881-1920, 1921-1950, 1951-1980, 1981-2010 and 2011-present.</p>
+<p>We remove data before 1800 and before using <code>filter</code>. Then, we use the <code>mutate</code> function to create a new variable <code>interval</code> which contains information on which period each observation belongs to. We can assign the different periods using <code>case_when()</code>.</p>
+<pre class="r"><code>comparison &lt;- tidyweather %&gt;% 
+  filter(Year&gt;= 1881) %&gt;%     #remove years prior to 1881
+  #create new variable &#39;interval&#39;, and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ &quot;1881-1920&quot;,
+    Year %in% c(1921:1950) ~ &quot;1921-1950&quot;,
+    Year %in% c(1951:1980) ~ &quot;1951-1980&quot;,
+    Year %in% c(1981:2010) ~ &quot;1981-2010&quot;,
+    TRUE ~ &quot;2011-present&quot;
+  ))</code></pre>
+<p>Now that we have the <code>interval</code> variable, we can create a density plot to study the distribution of monthly deviations (<code>delta</code>), grouped by the different time periods we are interested in. Set <code>fill</code> to <code>interval</code> to group and colour the data by different time periods.</p>
+<pre class="r"><code>ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) +   #density plot with tranparency set to 20%
+  theme_bw() +                #theme
+  labs (
+    title = &quot;Density Plot for Monthly Temperature Anomalies&quot;,
+    y     = &quot;Density&quot;         #changing y-axis label to sentence case
+  )</code></pre>
+<p><img src="/blogs/climate_files/figure-html/density_plot-1.png" width="648" style="display: block; margin: auto;" /></p>
+<p>So far, we have been working with monthly anomalies. However, we might be interested in average annual anomalies. We can do this by using <code>group_by()</code> and <code>summarise()</code>, followed by a scatter plot to display the result.</p>
+<pre class="r"><code>#creating yearly averages
+average_annual_anomaly &lt;- tidyweather %&gt;% 
+  group_by(Year) %&gt;%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(annual_average_delta = mean(delta, na.rm=TRUE)) 
 
-recessions</code></pre>
-<pre><code>## # A tibble: 11 x 5
-##    from       to         From       To         duration_days
-##    &lt;chr&gt;      &lt;chr&gt;      &lt;date&gt;     &lt;date&gt;     &lt;drtn&gt;       
-##  1 1948-11-01 1949-10-01 1948-11-01 1949-10-01 334 days     
-##  2 1953-07-01 1954-05-01 1953-07-01 1954-05-01 304 days     
-##  3 1957-08-01 1958-04-01 1957-08-01 1958-04-01 243 days     
-##  4 1960-04-01 1961-02-01 1960-04-01 1961-02-01 306 days     
-##  5 1969-12-01 1970-11-01 1969-12-01 1970-11-01 335 days     
-##  6 1973-11-01 1975-03-01 1973-11-01 1975-03-01 485 days     
-##  7 1980-01-01 1980-07-01 1980-01-01 1980-07-01 182 days     
-##  8 1981-07-01 1982-11-01 1981-07-01 1982-11-01 488 days     
-##  9 1990-07-01 1991-03-01 1990-07-01 1991-03-01 243 days     
-## 10 2001-03-01 2001-11-01 2001-03-01 2001-11-01 245 days     
-## 11 2007-12-01 2009-06-01 2007-12-01 2009-06-01 548 days</code></pre>
-<ul>
-<li>To add the grey shaded areas corresponding to recessions, we use <code>geom_rect()</code></li>
-</ul>
-<pre class="r"><code>library(scales)</code></pre>
-<pre class="r"><code>yield_3m=filter(yield_curve,maturity==&#39;3m&#39;)
-yield_10y=filter(yield_curve,maturity==&#39;10y&#39;)
-
-yield_diff&lt;-yield_3m %&gt;% 
-  mutate(price10=yield_10y$price,
-         diff=price10-price,
-         judge=diff&gt;0,
-         posi=ifelse(judge,diff,0),
-         nega=ifelse(judge,0,diff)) 
-
-yield_diff %&gt;% 
-  ggplot(aes(x=date))+
-  geom_area(aes(y=posi,fill=&#39;red&#39;),outline.type=&#39;lower&#39;)+
-  geom_area(aes(y=nega,fill=&#39;blue&#39;),outline.type=&#39;lower&#39;)+
-  geom_rect(data=filter(recessions,year(From)&gt;1960),inherit.aes=F, aes(xmin=From, xmax=To, ymin=-Inf, ymax=+Inf), fill=&#39;grey&#39;, alpha=0.5)+
-  geom_line(aes(y=diff))+
-  geom_rug(sides=&quot;b&quot;,aes(colour=judge)) +
-  theme_bw()+
-  theme(legend.position = &#39;none&#39;)+
-  labs(title=&#39;Yield Curve Inversion: 10-year minus 3-month U.S. Treasury rates&#39;,
-       subtitle=&#39;Difference in % points, monthly averages.
-       shaded areas correspond to recessions&#39;,
-       x=element_blank(),
-       y=&#39;Difference(10 year-3 month) yield in %&#39;,
-       caption=&#39;Source: FRED, Federal Reserve Bank of St Louis&#39;)</code></pre>
-<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-7-1.png" width="648" style="display: block; margin: auto;" /></p>
+#plotting the data:
+ggplot(average_annual_anomaly, aes(x=Year, y= annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme_bw() +
+  labs (
+    title = &quot;Average Yearly Anomaly&quot;,
+    y     = &quot;Average Annual Delta&quot;
+  )                         </code></pre>
+<p><img src="/blogs/climate_files/figure-html/averaging-1.png" width="648" style="display: block; margin: auto;" /></p>
 </div>
+<div id="confidence-interval-for-delta" class="section level2">
+<h2>Confidence Interval for <code>delta</code></h2>
+<p><a href="https://earthobservatory.nasa.gov/world-of-change/decadaltemp.php">NASA points out on their website</a> that</p>
+<blockquote>
+<p>A one-degree global change is significant because it takes a vast amount of heat to warm all the oceans, atmosphere, and land by that much. In the past, a one- to two-degree drop was all it took to plunge the Earth into the Little Ice Age.</p>
+</blockquote>
+<p>Your task is to construct a confidence interval for the average annual delta since 2011, both using a formula and using a bootstrap simulation with the <code>infer</code> package. Recall that the dataframe <code>comparison</code> has already grouped temperature anomalies according to time intervals; we are only interested in what is happening between 2011-present.</p>
+<pre class="r"><code>formula_ci &lt;- comparison %&gt;% 
+
+  # choose the interval 2011-present
+  filter(interval == &quot;2011-present&quot;) %&gt;% 
+  summarise(mean_delta = mean(delta, na.rm=TRUE),
+  sd_delta = sd(delta, na.rm=TRUE),
+  count = n(),
+  se_delta = sd_delta/sqrt(count),
+  t_critical = qt(0.975, count - 1),
+  lower_bound = mean_delta - t_critical * se_delta,
+  upper_bound = mean_delta + t_critical * se_delta)
+
+formula_ci</code></pre>
+<pre><code>## # A tibble: 1 x 7
+##   mean_delta sd_delta count se_delta t_critical lower_bound upper_bound
+##        &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+## 1      0.966    0.262   108   0.0252       1.98       0.916        1.02</code></pre>
+<pre class="r"><code>library(infer)
+Bootstrap_delta &lt;- comparison %&gt;% 
+  filter(interval == &quot;2011-present&quot;) %&gt;% 
+  specify(response = delta) %&gt;% 
+  generate(reps = 1000, type = &quot;bootstrap&quot;) %&gt;% 
+  calculate(stat = &quot;mean&quot;)
+
+glimpse(Bootstrap_delta)</code></pre>
+<pre><code>## Rows: 1,000
+## Columns: 2
+## $ replicate &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17...
+## $ stat      &lt;dbl&gt; 0.977, 0.987, 0.982, 0.985, 0.996, 0.974, 0.914, 1.013, 0...</code></pre>
+<pre class="r"><code>formula_bootstrap_ci &lt;- Bootstrap_delta %&gt;%
+  get_ci(level = 0.95, type = &quot;percentile&quot;)
+
+
+formula_bootstrap_ci</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   lower_ci upper_ci
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1    0.914     1.01</code></pre>
 </div>
 
                         </div>
@@ -330,6 +232,50 @@ yield_diff %&gt;%
                 <!-- Footer -->
     <footer id="footer">
         <div class="inner">
+            <ul class="icons">
+                
+                    <li><a href="https://twitter.com/cyrilchen18" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+                
+                    <li><a href="https://www.facebook.com/cyril.chen.1213/" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
+                
+                    <li><a href="https://github.com/YusenChenLBS" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                    <li><a href="www.linkedin.com/in/cyrilyusenchen" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+                
+            </ul>
+            <ul class="copyright">
+                <li>&copy; London Business School</li>
+                
+                <li>Yusen Chen  <a href=""></a></li>
+                
+            </ul>
+        </div>
+    </footer>
+
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>
+>
             <ul class="icons">
                 
                     <li><a href="https://twitter.com/cyrilchen18" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
