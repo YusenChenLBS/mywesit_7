@@ -1,0 +1,151 @@
+---
+categories:
+- ""
+- ""
+date: "2020-10-30"
+description: Excess Rentals in London Bike Sharing
+draft: false
+keywords: ""
+slug: bike
+title: Excess Rentals in London Bike Sharing
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(scales)
+```
+
+
+
+```{r, get_tfl_data, cache=TRUE}
+
+url <- "https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx"
+
+# Download TFL data to temporary file
+httr::GET(url, write_disk(bike.temp <- tempfile(fileext = ".xlsx")))
+
+# Use read_excel to read it as dataframe
+bike0 <- read_excel(bike.temp,
+                   sheet = "Data",
+                   range = cell_cols("A:B"))
+Sys.setlocale("LC_TIME", "English")
+# change dates to get year, month, and week
+bike <- bike0 %>% 
+  clean_names() %>% 
+  rename (bikes_hired = number_of_bicycle_hires) %>% 
+  mutate (year = year(day),
+          month = lubridate::month(day,label=TRUE),
+          week = isoweek(day))
+```
+
+```{r}
+Sys.setlocale("LC_TIME", "English")
+```
+
+
+```{r}
+bike2<-bike %>% 
+  group_by(year,month) %>% 
+  summarise(monthly_num=mean(bikes_hired)) %>% 
+  ungroup()
+
+bike3<-bike2%>% 
+  filter(year>2014&year<2020) %>% 
+  group_by(month) %>% 
+  summarise(monthly_mean=mean(monthly_num)) %>% 
+  ungroup()
+
+bike4<-left_join(bike2,bike3,"month")%>% 
+  mutate(posi=ifelse(monthly_num>monthly_mean,monthly_num,monthly_mean),
+         nega=ifelse(monthly_num>monthly_mean,monthly_mean,monthly_num))%>% 
+  filter(year>2014) 
+
+```
+
+
+```{r}
+bike_w<-bike %>% 
+  group_by(year,week) %>% 
+  summarise(weekly_num=mean(bikes_hired))%>% 
+  ungroup()
+
+bike_w2<-bike_w%>% 
+  filter(year>2014&year<2020) %>% 
+  group_by(week) %>% 
+  summarise(weekly_mean=mean(weekly_num)) %>% 
+  ungroup()
+
+bike_w3<-left_join(bike_w,bike_w2,"week")%>% 
+  mutate(diff=(weekly_num-weekly_mean)/weekly_mean,
+        judge=weekly_num>weekly_mean,
+        posi=ifelse(judge,diff,0),
+         nega=ifelse(judge,0,diff))%>% 
+  filter(year>2014) 
+
+
+```
+
+
+```{r}
+bike4 %>% 
+  ggplot(aes(x=month))+
+  geom_ribbon(aes(ymin=nega, ymax=monthly_num,fill='red',group=0))+
+  geom_ribbon(aes(ymin=monthly_mean, ymax=nega,fill='bluw',group=0))+
+  geom_line(aes(y=monthly_num),group=1)+
+  geom_line(aes(y=monthly_mean),colour='#0101DF',size=1,group=1)+
+  facet_wrap(~year)+
+  theme_minimal()+
+  labs(title='Monthly changes in TfL bike rentals',
+       subtitle='Change from monthly average shown in blue and calculated between 2015-2019' ,
+       y = "Bike Rentals",
+       x=element_blank(),
+       caption='Soource: TfL, London Data Store')+
+  theme(legend.position ='none')
+
+```
+```{r}
+ggplot(bike_w3,aes(x=week))+
+  geom_area(aes(y=posi,fill='green'),outline.type='lower')+
+  geom_area(aes(y=nega,fill='blue'),outline.type='lower')+
+  geom_rect(aes(xmin=13, xmax=26, ymin=-Inf, ymax=Inf),fill='#545454'fbrea,alpha = .005)+
+  geom_rect(aes(xmin=39, xmax=52, ymin=-Inf, ymax=Inf),fill='#545454',alpha = .005)+
+  geom_line(aes(y=diff))+
+  facet_wrap(~year)+
+  theme_minimal()+
+  geom_rug(sides="b",aes(colour=judge)) +
+  scale_y_continuous(labels = scales :: percent)+
+  labs(title='Weekly changes in TfL bike rentals',
+       subtitle='%changes from weekly averages calculated between 2015-2019',
+       y=element_blank(),
+       caption='Source: TfL, London Data Store')+
+  scale_y_continuous(labels = percent,breaks=seq(-0.6,0.6,0.3))+
+  scale_x_continuous(breaks=seq(0, 52, 13))+
+  theme(legend.position="none")
+
+```
