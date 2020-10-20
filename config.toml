@@ -41,7 +41,7 @@ disqusShortname = ""
     subtitle = "Personal Website"
     menu = "Menu"
     # Optional logo as brand stored in img/
-    logo = "LBS.jpg"
+    #logo = "LBS.jpg"
 
     [[params.navigation.links]]
       name = "Home"
@@ -101,7 +101,7 @@ disqusShortname = ""
       title = "US Yield Curve Inversion"
       subtitle = "A Good Indicator for Recession"
       image = "yield.png"
-      url = "blogs"
+      url = "projects/usyield"
 
     [[params.tiles.showcase]]
       title = "Magna"
