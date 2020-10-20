@@ -42,6 +42,8 @@ library(scales)
 ```
 
 
+Since bike sharing comes to popular, it has become a  reflection of people's activities and can show the impact of those great event like covid-19 this year. In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number. And then we will conduct the same method to analyze weekly data.
+
 
 ```{r, get_tfl_data, cache=TRUE}
 
@@ -68,6 +70,7 @@ bike <- bike0 %>%
 Sys.setlocale("LC_TIME", "English")
 ```
 
+## Data Processing
 
 ```{r}
 bike2<-bike %>% 
@@ -112,6 +115,8 @@ bike_w3<-left_join(bike_w,bike_w2,"week")%>%
 ```
 
 
+## Monthly changes in Efl bike retals
+
 ```{r}
 bike4 %>% 
   ggplot(aes(x=month))+
@@ -129,6 +134,9 @@ bike4 %>%
   theme(legend.position ='none')
 
 ```
+
+## Weekly changes in Efl bike retals
+
 ```{r}
 ggplot(bike_w3,aes(x=week))+
   geom_area(aes(y=posi,fill='green'),outline.type='lower')+

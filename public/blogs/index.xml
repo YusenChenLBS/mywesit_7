@@ -13,7 +13,7 @@
       <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/bike/</guid>
-      <description>url &amp;lt;- &amp;quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&amp;quot;# Download TFL data to temporary filehttr::GET(url, write_disk(bike.temp &amp;lt;- tempfile(fileext = &amp;quot;.xlsx&amp;quot;)))## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20201020%2Feu-west-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Date=20201020T165309Z&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Signature=3877d406a54672ba2787ccee5874c5ec52ea74bf456fe180ce3d4116c81f555a&amp;amp;X-Amz-SignedHeaders=host]## Date: 2020-10-20 16:53## Status: 200## Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet## Size: 165 kB## &amp;lt;ON DISK&amp;gt; C:\Users\admin\AppData\Local\Temp\RtmpQ7Dviq\file334020b47b7c.xlsx# Use read_excel to read it as dataframebike0 &amp;lt;- read_excel(bike.temp,sheet = &amp;quot;Data&amp;quot;,range = cell_cols(&amp;quot;A:B&amp;quot;))Sys.setlocale(&amp;quot;LC_TIME&amp;quot;, &amp;quot;English&amp;quot;)## [1] &amp;quot;English_United States.1252&amp;quot;# change dates to get year, month, and weekbike &amp;lt;- bike0 %&amp;gt;% clean_names() %&amp;gt;% rename (bikes_hired = number_of_bicycle_hires) %&amp;gt;% mutate (year = year(day),month = lubridate::month(day,label=TRUE),week = isoweek(day))Sys.</description>
+      <description>Since bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year. In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number.</description>
     </item>
     
     <item>
@@ -22,8 +22,7 @@
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/climate/</guid>
-      <description>weather &amp;lt;- read_csv(&amp;quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&amp;quot;, skip = 1, na = &amp;quot;***&amp;quot;)Notice that, when using this function, we added two options: skip and na.
-The skip=1 option is there as the real data table only starts in Row 2, so we need to skip one row.na = &#34;***&#34; option informs R how missing observations in the spreadsheet are coded. When looking at the spreadsheet, you can see that missing data is coded as &#34;</description>
+      <description>Global warming has become the most important social, environment and political topic in the last decades of years. Considering the massive controversy surrounding global warming, we want prove the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly tempareture since 1880s. We will use ggplot to visually show the facts of global warming。</description>
     </item>
     
     <item>
@@ -42,8 +41,8 @@ My passionI always have great passion for the world, especially for those issue
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/usyield/</guid>
-      <description>First, we will use the tidyquant package to download monthly rates for different durations.
-# Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc....&amp;#39;GS3&amp;#39;,&amp;#39;GS5&amp;#39;,&amp;#39;GS7&amp;#39;,&amp;#39;GS10&amp;#39;,&amp;#39;GS20&amp;#39;,&amp;#39;GS30&amp;#39;) #.... all the way to the 30-year rate# Turn FRED codes to human readable variablesmyvars &amp;lt;- c(&amp;#39;3-Month Treasury Bill&amp;#39;,&amp;#39;6-Month Treasury Bill&amp;#39;,&amp;#39;1-Year Treasury Rate&amp;#39;,&amp;#39;2-Year Treasury Rate&amp;#39;,&amp;#39;3-Year Treasury Rate&amp;#39;,&amp;#39;5-Year Treasury Rate&amp;#39;,&amp;#39;7-Year Treasury Rate&amp;#39;,&amp;#39;10-Year Treasury Rate&amp;#39;,&amp;#39;20-Year Treasury Rate&amp;#39;,&amp;#39;30-Year Treasury Rate&amp;#39;)maturity &amp;lt;- c(&amp;#39;3m&amp;#39;, &amp;#39;6m&amp;#39;, &amp;#39;1y&amp;#39;, &amp;#39;2y&amp;#39;,&amp;#39;3y&amp;#39;,&amp;#39;5y&amp;#39;,&amp;#39;7y&amp;#39;,&amp;#39;10y&amp;#39;,&amp;#39;20y&amp;#39;,&amp;#39;30y&amp;#39;)# by default R will sort these maturities alphabetically; but since we want# to keep them in that exact order, we recast maturity as a factor # or categorical variable, with the levels defined as we wantmaturity &amp;lt;- factor(maturity, levels = maturity)# Create a lookup datasetmylookup&amp;lt;-data.</description>
+      <description>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this reversion appear.
+First, we will use the tidyquant package to download monthly rates for different durations.</description>
     </item>
     
     <item>

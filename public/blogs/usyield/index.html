@@ -85,6 +85,7 @@
                             
 
 
+<p>The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this reversion appear.</p>
 <p>First, we will use the <code>tidyquant</code> package to download monthly rates for different durations.</p>
 <pre class="r"><code># Get a list of FRED codes for US rates and US yield curve; choose monthly frequency
 # to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MS
@@ -203,7 +204,6 @@ glimpse(df)</code></pre>
 <pre class="r"><code>yield_curve &lt;-left_join(df,mylookup,by=&quot;symbol&quot;) </code></pre>
 <div id="plotting-the-yield-curve" class="section level2">
 <h2>Plotting the yield curve</h2>
-<p>This may seem long but it should be easy to produce the following three plots</p>
 <div id="yields-on-us-rates-by-duration-since-1960" class="section level3">
 <h3>Yields on US rates by duration since 1960</h3>
 <pre class="r"><code>yield_curve$var&lt;-factor(yield_curve$var, levels = myvars)</code></pre>
@@ -248,15 +248,17 @@ glimpse(df)</code></pre>
        y=&#39;Yield(%)&#39;,
        caption=&#39;Source: St Louis Federal Reserve Economic Database(FRED)&#39;)</code></pre>
 <p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-4-1.png" width="648" style="display: block; margin: auto;" /></p>
-<p>According to <a href="https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States">Wikipedia’s list of recession in the United States</a>, since 1999 there have been two recession in the US: between Mar 2001–Nov 2001 and between Dec 2007–June 2009. Does the yield curve seem to flatten before these recessions? Can a yield curve flattening really mean a recession is coming in the US? Since 1999, when did short-term (3 months) yield more than longer term (10 years) debt?</p>
-<pre class="r"><code>#Yes, the yield curve flatten several months earlier than rec，ssions, which is a very useful indicator for recession.
-#from Aug 2000 to Dec 2000 and from Aug 2006 to Apr 2007.</code></pre>
+<p>According to <a href="https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States">Wikipedia’s list of recession in the United States</a>, since 1999 there have been two recession in the US: between Mar 2001–Nov 2001 and between Dec 2007–June 2009. From the plots, we can say that the yield curve flatten several months earlier than recessions, which is a very useful indicator for recession.</p>
 <p>Besides calculating the spread (10year - 3months), there are a few things we need to do to produce our final plot</p>
 <ol style="list-style-type: decimal">
 <li>Setup data for US recessions</li>
 <li>Superimpose recessions as the grey areas in our plot</li>
 <li>Plot the spread between 30 years and 3 months as a blue/red ribbon, based on whether the spread is positive (blue) or negative(red)</li>
 </ol>
+</div>
+</div>
+<div id="yield-curve-reversion-and-recessions" class="section level2">
+<h2>Yield Curve Reversion and Recessions</h2>
 <ul>
 <li>For the first, the code below creates a dataframe with all US recessions since 1946</li>
 </ul>
@@ -315,8 +317,7 @@ yield_diff %&gt;%
        x=element_blank(),
        y=&#39;Difference(10 year-3 month) yield in %&#39;,
        caption=&#39;Source: FRED, Federal Reserve Bank of St Louis&#39;)</code></pre>
-<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-7-1.png" width="648" style="display: block; margin: auto;" /></p>
-</div>
+<p><img src="/blogs/usyield_files/figure-html/unnamed-chunk-6-1.png" width="648" style="display: block; margin: auto;" /></p>
 </div>
 
                         </div>

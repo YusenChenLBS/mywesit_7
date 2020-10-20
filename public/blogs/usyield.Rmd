@@ -44,6 +44,9 @@ library(openintro)
 library(tidyquant)
 ```
 
+The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this reversion appear.
+
+
 
 First, we will use the `tidyquant` package to download monthly rates for different durations. 
 
@@ -108,7 +111,6 @@ yield_curve <-left_join(df,mylookup,by="symbol")
 
 ## Plotting the yield curve
 
-This may seem long but it should be easy to produce the following three plots
 
 ### Yields on US rates by duration since 1960
 ```{r}
@@ -161,17 +163,7 @@ yield_curve %>%
        caption='Source: St Louis Federal Reserve Economic Database(FRED)')
 ```
 
-
-
-
-According to [Wikipedia's list of recession in the United States](https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States), since 1999 there have been two recession in the US: between Mar 2001–Nov 2001 and between Dec 2007–June 2009. Does the yield curve seem to flatten before these recessions? Can a yield curve flattening really mean a recession is coming in the US? Since 1999, when did short-term (3 months) yield more than longer term (10 years) debt?
-
-```{r}
-
-#Yes, the yield curve flatten several months earlier than rec，ssions, which is a very useful indicator for recession.
-#from Aug 2000 to Dec 2000 and from Aug 2006 to Apr 2007.
-```
-
+According to [Wikipedia's list of recession in the United States](https://en.wikipedia.org/wiki/List_of_recessions_in_the_United_States), since 1999 there have been two recession in the US: between Mar 2001–Nov 2001 and between Dec 2007–June 2009. From the plots, we can say that the yield curve flatten several months earlier than recessions, which is a very useful indicator for recession. 
 
 
 Besides calculating the spread (10year - 3months), there are a few things we need to do to produce our final plot
@@ -180,6 +172,7 @@ Besides calculating the spread (10year - 3months), there are a few things we nee
 1. Superimpose recessions as the grey areas in our plot
 1. Plot the spread between 30 years and 3 months as a blue/red ribbon, based on whether the spread is positive (blue) or negative(red)
 
+## Yield Curve Reversion and Recessions
 
 - For the first, the code below creates a dataframe with all US recessions since 1946
 
