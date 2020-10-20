@@ -45,10 +45,14 @@ library(readxl)
 library(vroom)
 ```
 
+## Introduction
+
 Global warming has become the most important social, environment and political topic in the last decades of years. 
 
 Considering the massive controversy surrounding global warming, we want to answer the following questions by data that if there is really global warming, and how serious the global warming is. We would download data from NASA, which includes monthly temperature since 1880s. We will use ggplot to visually show the facts of global warming.
 
+
+## Download data
 ```{r weather_data, cache=TRUE}
 
 weather <- 

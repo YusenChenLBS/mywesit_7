@@ -48,11 +48,14 @@ library(openintro)
 library(tidyquant)
 ```
 
+
+## Introduction
+
 The reversion of US Treasury yield (2Y-10Y, 3M-10Y) has long been seen as an indicator of recession in the next few years. 
 
 In this analysis, we would download data from Fed, and compare the time with US yield reversion and the time of recession. We would see if the indicator really works and if it works, how early will this indicator appear before the recession.
 
-
+## Download and process data
 
 First, we will use the `tidyquant` package to download monthly rates for different durations. 
 

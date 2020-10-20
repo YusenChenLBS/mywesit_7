@@ -13,7 +13,7 @@
       <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/blogs/bike/</guid>
-      <description>Since bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year.
+      <description>IntroductionSince bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year.
 In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number.</description>
     </item>
     

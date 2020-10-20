@@ -86,8 +86,13 @@
 
 
 <p><img src="/img/bike.jpg" width="90%" /></p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>Since bike sharing comes to popular, it has become a reflection of people’s activities and can show the impact of those great event like covid-19 this year.</p>
 <p>In this analysis, we will download bike sharing data from UK gov, and observe the different patterns of monthly bike-hire number between 2014-2016. We use the average number of each month as the expected rental number, and calculate the difference from expected rental number and read rental number. And then we will conduct the same method to analyze weekly data.</p>
+</div>
+<div id="download-and-process-data" class="section level2">
+<h2>Download and process Data</h2>
 <pre class="r"><code>url &lt;- &quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&quot;
 
 # Download TFL data to temporary file
@@ -113,8 +118,6 @@ bike &lt;- bike0 %&gt;%
           week = isoweek(day))</code></pre>
 <pre class="r"><code>Sys.setlocale(&quot;LC_TIME&quot;, &quot;English&quot;)</code></pre>
 <pre><code>## [1] &quot;English_United States.1252&quot;</code></pre>
-<div id="data-processing" class="section level2">
-<h2>Data Processing</h2>
 <pre class="r"><code>bike2&lt;-bike %&gt;% 
   group_by(year,month) %&gt;% 
   summarise(monthly_num=mean(bikes_hired)) %&gt;% 
