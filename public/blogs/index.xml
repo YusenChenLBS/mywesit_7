@@ -8,6 +8,16 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Oct 2017 22:27:21 -0500</lastBuildDate><atom:link href="/blogs/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Us Yield Curve Reversion</title>
+      <link>/blogs/usyield/</link>
+      <pubDate>Fri, 30 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/usyield/</guid>
+      <description>First, we will use the tidyquant package to download monthly rates for different durations.
+# Get a list of FRED codes for US rates and US yield curve; choose monthly frequency# to see, eg., the 3-month T-bill https://fred.stlouisfed.org/series/TB3MStickers &amp;lt;- c(&amp;#39;TB3MS&amp;#39;, # 3-month Treasury bill (or T-bill)&amp;#39;TB6MS&amp;#39;, # 6-month&amp;#39;GS1&amp;#39;, # 1-year&amp;#39;GS2&amp;#39;, # 2-year, etc....&amp;#39;GS3&amp;#39;,&amp;#39;GS5&amp;#39;,&amp;#39;GS7&amp;#39;,&amp;#39;GS10&amp;#39;,&amp;#39;GS20&amp;#39;,&amp;#39;GS30&amp;#39;) #.... all the way to the 30-year rate# Turn FRED codes to human readable variablesmyvars &amp;lt;- c(&amp;#39;3-Month Treasury Bill&amp;#39;,&amp;#39;6-Month Treasury Bill&amp;#39;,&amp;#39;1-Year Treasury Rate&amp;#39;,&amp;#39;2-Year Treasury Rate&amp;#39;,&amp;#39;3-Year Treasury Rate&amp;#39;,&amp;#39;5-Year Treasury Rate&amp;#39;,&amp;#39;7-Year Treasury Rate&amp;#39;,&amp;#39;10-Year Treasury Rate&amp;#39;,&amp;#39;20-Year Treasury Rate&amp;#39;,&amp;#39;30-Year Treasury Rate&amp;#39;)maturity &amp;lt;- c(&amp;#39;3m&amp;#39;, &amp;#39;6m&amp;#39;, &amp;#39;1y&amp;#39;, &amp;#39;2y&amp;#39;,&amp;#39;3y&amp;#39;,&amp;#39;5y&amp;#39;,&amp;#39;7y&amp;#39;,&amp;#39;10y&amp;#39;,&amp;#39;20y&amp;#39;,&amp;#39;30y&amp;#39;)# by default R will sort these maturities alphabetically; but since we want# to keep them in that exact order, we recast maturity as a factor # or categorical variable, with the levels defined as we wantmaturity &amp;lt;- factor(maturity, levels = maturity)# Create a lookup datasetmylookup&amp;lt;-data.</description>
+    </item>
+    
+    <item>
       <title>Aliquam</title>
       <link>/blogs/aliquam/</link>
       <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>

@@ -101,7 +101,7 @@ disqusShortname = ""
       title = "US Yield Curve Inversion"
       subtitle = "A Good Indicator for Recession"
       image = "yield.png"
-      url = "projects/usyield"
+      url = "blogs/usyield"
 
     [[params.tiles.showcase]]
       title = "Magna"
