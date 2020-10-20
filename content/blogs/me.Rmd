@@ -1,20 +1,23 @@
 ---
-categories:
-- ""
-- ""
-date: "2020-10-20"
+title: "My Story continues"
+date: '2020-10-20'
 description: life of Yusen Chen
-draft: false
+draft: no
 image: me.jpg
-keywords: ""
+keywords: ''
 slug: me
-title: My Story continues
+categories:
+- ''
+- ''
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r add_my_new_picture, echo=FALSE, out.width="90%"}
+knitr::include_graphics("/img/me.jpg",error = FALSE)
+```
 # The personal biography of Yusen Chen
 
 Hi, my name is Yusen Chen, a Masters in Financial Analysis student in LBS. I graduated from Fudan University, China, where i majored in Economics during undergraduate.
