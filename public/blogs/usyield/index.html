@@ -85,9 +85,6 @@
                             
 
 
-<p>If we wanted to study climate change, we can find data on the <em>Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies</em> in the Northern Hemisphere at <a href="https://data.giss.nasa.gov/gistemp">NASA’s Goddard Institute for Space Studies</a>. The <a href="https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.txt">tabular data of temperature anomalies can be found here</a></p>
-<p>To define temperature anomalies you need to have a reference, or base, period which NASA clearly states that it is the period between 1951-1980.</p>
-<p>Run the code below to load the file:</p>
 <pre class="r"><code>weather &lt;- 
   read_csv(&quot;https://data.giss.nasa.gov/gistemp/tabledata_v3/NH.Ts+dSST.csv&quot;, 
            skip = 1, 
@@ -96,13 +93,6 @@
 <ol style="list-style-type: decimal">
 <li>The <code>skip=1</code> option is there as the real data table only starts in Row 2, so we need to skip one row.</li>
 <li><code>na = "***"</code> option informs R how missing observations in the spreadsheet are coded. When looking at the spreadsheet, you can see that missing data is coded as "***". It is best to specify this here, as otherwise some of the data is not recognized as numeric data.</li>
-</ol>
-<p>Once the data is loaded, notice that there is a object titled <code>weather</code> in the <code>Environment</code> panel. If you cannot see the panel (usually on the top-right), go to <code>Tools</code> &gt; <code>Global Options</code> &gt; <code>Pane Layout</code> and tick the checkbox next to <code>Environment</code>. Click on the <code>weather</code> object, and the dataframe will pop up on a seperate tab. Inspect the dataframe.</p>
-<p>For each month and year, the dataframe shows the deviation of temperature from the normal (expected). Further the dataframe is in wide format.</p>
-<p>You have two objectives in this section:</p>
-<ol style="list-style-type: decimal">
-<li><p>Select the year and the twelve month variables from the <code>weather</code> dataset. We do not need the others (J-D, D-N, DJF, etc.) for this assignment. Hint: use <code>select()</code> function.</p></li>
-<li><p>Convert the dataframe from wide to ‘long’ format. Hint: use <code>gather()</code> or <code>pivot_longer()</code> function. Name the new dataframe as <code>tidyweather</code>, name the variable containing the name of the month as <code>month</code>, and the temperature deviation values as <code>delta</code>.</p></li>
 </ol>
 <pre class="r"><code>tidyweather &lt;- weather %&gt;% 
   select(-c(14,15,16,17,18,19)) %&gt;% 
@@ -232,50 +222,6 @@ formula_bootstrap_ci</code></pre>
                 <!-- Footer -->
     <footer id="footer">
         <div class="inner">
-            <ul class="icons">
-                
-                    <li><a href="https://twitter.com/cyrilchen18" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-                
-                    <li><a href="https://www.facebook.com/cyril.chen.1213/" class="icon alt fa-facebook" target="_blank"><span class="label">Facebook</span></a></li>
-                
-                    <li><a href="https://github.com/YusenChenLBS" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
-                
-                    <li><a href="www.linkedin.com/in/cyrilyusenchen" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
-                
-            </ul>
-            <ul class="copyright">
-                <li>&copy; London Business School</li>
-                
-                <li>Yusen Chen  <a href=""></a></li>
-                
-            </ul>
-        </div>
-    </footer>
-
-            
-        </div>
-
-    <!-- Scripts -->
-        <!-- Scripts -->
-    <!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery.scrolly.min.js"></script>
-    <script src="/js/jquery.scrollex.min.js"></script>
-    <script src="/js/skel.min.js"></script>
-    <script src="/js/util.js"></script>
-
-    
-
-    <!-- Main JS -->
-    <script src="/js/main.js"></script>
-
-    
-
-    
-
-    </body>
-</html>
->
             <ul class="icons">
                 
                     <li><a href="https://twitter.com/cyrilchen18" class="icon alt fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>

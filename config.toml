@@ -136,7 +136,7 @@ disqusShortname = ""
     title = "Profession files"
     subtitle = """seeking for positions in S&T and AM"""
     buttonText = "My CV"
-    url = "blogs/cv"
+    url = "blogs/cv/Yusen Chen_CV.pdf"
 
 
   # Contact section
